@@ -30,6 +30,7 @@ Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
 ###############################################################################
 
 import rosegraphics as rg
+import math
 
 
 def main():
@@ -65,6 +66,43 @@ def run_test_hourglass():
 
 
 def hourglass(window, n, point, radius, color):
+    height = math.sqrt(3 * (radius ** 2))
+    width = radius * 2
+    starting_point = point.clone()
+    for k in range(1, n+1):
+        for j in range(1, k + 1):
+            hourglass_circle_point = rg.Point(point.x + (width * (j-1)), point.y)
+            hourglass_circle = rg.Circle(hourglass_circle_point, radius)
+            hourglass_circle.fill_color = color
+            hourglass_circle.attach_to(window)
+            hourglass_circle_line = rg.Line(rg.Point(hourglass_circle_point.x - radius, hourglass_circle_point.y),
+                                            rg.Point(hourglass_circle_point.x + radius, hourglass_circle_point.y))
+            hourglass_circle_line.attach_to(window)
+        point.x = starting_point.x
+        point.y = point.y - height
+        point.x = point.x - (radius * k)
+
+
+    point.x = starting_point.x
+    point.y = starting_point.y
+
+    for k in range(1, n+1):
+        for j in range(1, k + 1):
+            hourglass_circle_point = rg.Point(point.x + (width * (j-1)), point.y)
+            hourglass_circle = rg.Circle(hourglass_circle_point, radius)
+            hourglass_circle.fill_color = color
+            hourglass_circle.attach_to(window)
+            hourglass_circle_line = rg.Line(rg.Point(hourglass_circle_point.x - radius, hourglass_circle_point.y),
+                                            rg.Point(hourglass_circle_point.x + radius, hourglass_circle_point.y))
+            hourglass_circle_line.attach_to(window)
+        point.x = starting_point.x
+        point.y = point.y + height
+        point.x = point.x - (radius * k)
+
+
+
+
+    window.render(0.1)
     """
     See   hourglass_picture.pdf   in this project for pictures that may
     help you better understand the following specification:
@@ -138,6 +176,24 @@ def run_test_many_hourglasses():
 
 
 def many_hourglasses(window, square, m, colors):
+    many_hourglasses_square_center = square.center.clone()
+    many_hourglasses_square = square.clone()
+    colors_counter = 0
+
+    radius = (many_hourglasses_square.length_of_each_side/2)
+    height = math.sqrt(3 * (radius ** 2))
+    for k in range(1, m+1):
+        square.center.x = square.center.x + (((k ** 2) - 1) * radius)
+        colors_counter = colors_counter + 1
+        if len(colors) == colors_counter:
+            colors_counter = 0
+        hourglass(window, k, square.center, radius, colors[colors_counter -1])
+        rectangle_upper_left_corner_1 = rg.Point(square.center.x - (radius * (k-1)), square.center.y - (radius + (height * (k-1))))
+        rectangle_lower_right_corner_1 = rg.Point(square.center.x + (radius * (k+1)), square.center.y + (radius + (height * (k-1))))
+        many_hourglasses_outline_rectangle = rg.Rectangle(rectangle_upper_left_corner_1, rectangle_lower_right_corner_1)
+        many_hourglasses_outline_rectangle.attach_to(window)
+        square.center.x = many_hourglasses_square_center.x
+        square.center.y = many_hourglasses_square_center.y
     """
     See   many_hourglasses_picture.pdf   in this project for pictures that may
     help you better understand the following specification:
