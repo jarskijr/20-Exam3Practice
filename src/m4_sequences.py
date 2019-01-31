@@ -6,8 +6,8 @@ This problem provides practice at:
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Jacob Jarski.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ###############################################################################
 # Students:
@@ -110,6 +110,12 @@ def run_test_practice_problem4a():
 
 
 def practice_problem4a(sequence):
+    returned_list = []
+    for k in range(len(sequence)):
+        if k > 0:
+            if sequence[k] == sequence[k - 1]:
+                returned_list = returned_list + [k-1]
+    return returned_list
     """
     What comes in: A non-empty sequence.
     What goes out: Returns a list of integers,
@@ -135,7 +141,7 @@ def practice_problem4a(sequence):
       :type sequence: list | tuple | string
     """
     ###########################################################################
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     ###########################################################################
     # DIFFICULTY AND TIME RATINGS (see top of this file for explanation)
@@ -181,6 +187,14 @@ def run_test_practice_problem4b():
 
 
 def practice_problem4b(sequence):
+    largest_number_problem4b = 0
+    for k in range(0, len(sequence), 2):
+        if k == 0:
+            largest_number_problem4b = sequence[k]
+        if largest_number_problem4b <= sequence[k]:
+            largest_number_problem4b = sequence[k]
+    return largest_number_problem4b
+
     """
     What comes in:
       A sequence of numbers, where the length of the sequence >= 2.
@@ -198,7 +212,7 @@ def practice_problem4b(sequence):
       :type sequence: (list | tuple) of (float | int)
     """
     # -------------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     ###########################################################################
     # DIFFICULTY AND TIME RATINGS (see top of this file for explanation)
@@ -266,6 +280,19 @@ def run_test_practice_problem4c():
 
 
 def practice_problem4c(points):
+    problem4c_ran = 0
+    for k in range(len(points)):
+        if is_prime(points[k].x):
+            if is_prime(points[k].y):
+                temp_placeholder_for_y = int(points[k].x)
+                print(type(points[k].x))
+                points[k].x = points[k].y
+                points[k].y = temp_placeholder_for_y
+                problem4c_ran = problem4c_ran + 1
+                return points[k]
+    if problem4c_ran == 0:
+        return ('Not found')
+
     """
     What comes in:  A tuple of rg.Points, each of whose coordinates
       is an integer.
@@ -296,7 +323,7 @@ def practice_problem4c(points):
       :rtype: rg.Point | string
     """
     ###########################################################################
-    # TODO: 4. Implement and test this function.
+    # DONE: 4. Implement and test this function.
     #     The testing code is already written for you (above).
     #
     # IMPORTANT: This problem is your LOWEST PRIORITY for preparing
